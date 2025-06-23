@@ -5,8 +5,8 @@
   "main": "server.js",
   
   "scripts": {
-    "dev": "nodemon server.js",       // for local
-    "start": "node server.js"         // for prod build (e.g., Railway)
+    "dev": "nodemon server.js",       
+    "start": "node server.js"         
   },
   "dependencies": {
     "@google/generative-ai": "^0.24.1",

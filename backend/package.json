@@ -3,9 +3,10 @@
   "version": "1.0.0",
   "description": "Backend for Excel file analysis platform",
   "main": "server.js",
+  
   "scripts": {
-    "start": "node server.js",
-    "dev": "nodemon server.js"
+    "dev": "nodemon server.js",       // for local
+    "start": "node server.js"         // for prod build (e.g., Railway)
   },
   "dependencies": {
     "@google/generative-ai": "^0.24.1",

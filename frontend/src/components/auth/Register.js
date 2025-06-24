@@ -129,14 +129,14 @@ const Register = () => {
 
           <form onSubmit={handleSubmit}>
             <Typography variant="subtitle1" sx={{ mb: 1, fontWeight: 500, color: "#0c4a6e" }}>
-              Username
+              Email Id
             </Typography>
             <TextField
               margin="normal"
               required
               fullWidth
               id="email"
-              placeholder="Type your username"
+              placeholder="Type your Email Id"
               name="email"
               autoComplete="email"
               autoFocus

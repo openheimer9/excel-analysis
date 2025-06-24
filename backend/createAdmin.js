@@ -1,41 +1,47 @@
+// createAdmin.js
+
 const mongoose = require('mongoose');
-const dotenv = require('dotenv');
+require('dotenv').config();
 const User = require('./models/User');
 
-// Load environment variables
-require('dotenv').config()
+// ✅ CONFIGURE YOUR ADMIN DETAILS HERE:
+const ADMIN_EMAIL = 'admin1@gmail.com';
+const ADMIN_PASSWORD = 'admin123';
+const ADMIN_ROLE = 'admin';
 
-// Connect to MongoDB
+// ✅ CONNECT TO MONGODB USING YOUR .env
 mongoose.connect(process.env.MONGODB_URI, {
-    useNewUrlParser: true,
-    useUnifiedTopology: true
+  useNewUrlParser: true,
+  useUnifiedTopology: true
 })
-.then(() => console.log('Connected to MongoDB'))
-.catch(err => console.error('MongoDB connection error:', err));
+.then(() => {
+  console.log('✅ Connected to MongoDB');
+  createAdminUser();
+})
+.catch(err => {
+  console.error('❌ MongoDB connection error:', err);
+  process.exit(1);
+});
 
+// ✅ FUNCTION TO CREATE ADMIN
 const createAdminUser = async () => {
-    try {
-        // Check if admin already exists
-        const existingAdmin = await User.findOne({ email: 'admin1@gmail.com' });
-        
-        if (existingAdmin) {
-            console.log('Admin user already exists!');
-            process.exit(0);
-        }
-        
-        // Create admin user
-        const adminUser = await User.create({
-            email: 'admin1@gmail.com',
-            password: 'admin123',
-            role: 'admin'
-        });
-        
-        console.log('Admin user created successfully:', adminUser);
-        process.exit(0);
-    } catch (error) {
-        console.error('Error creating admin user:', error.message);
-        process.exit(1);
-    }
-};
+  try {
+    const existingAdmin = await User.findOne({ email: ADMIN_EMAIL });
 
-createAdminUser();
+    if (existingAdmin) {
+      console.log('⚠️ Admin user already exists:', existingAdmin.email);
+    } else {
+      const adminUser = await User.create({
+        email: ADMIN_EMAIL,
+        password: ADMIN_PASSWORD,
+        role: ADMIN_ROLE
+      });
+      console.log('✅ Admin user created successfully:', adminUser.email);
+    }
+
+    process.exit(0);
+  } catch (error) {
+    console.error('❌ Error creating admin user:', error.message);
+    process.exit(1);
+  }
+};

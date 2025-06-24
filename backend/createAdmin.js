@@ -6,7 +6,8 @@ const User = require('./models/User');
 require('dotenv').config()
 
 // Connect to MongoDB
-mongoose.connect('mongodb+srv://bhagirathdev1238:bhagirath123@cluster0.fz1fntb.mongodb.net/ExcelDB?retryWrites=true&w=majority&appName=Cluster0', {
+mongoose.connect('mongodb+srv://bhagirathdev1238:bhagirathdev1238@cluster0.a7xnfj9.mongodb.net/?retryWrites=true&w=majority&appName=Cluster0
+', {
     useNewUrlParser: true,
     useUnifiedTopology: true
 })

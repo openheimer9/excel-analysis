@@ -136,11 +136,11 @@ const FileHistory = () => {
               mb: 3,
             }}
           >
-            <HistoryIcon sx={{ color: "#15803d", fontSize: 28 }} />
+            <HistoryIcon sx={{ color: "#0c4a6e", fontSize: 28 }} />
             <Typography
               variant="h5"
               fontWeight="bold"
-              sx={{ color: "#15803d" }}
+              sx={{ color: "#0c4a6e" }}
             >
               File History
             </Typography>
@@ -173,16 +173,16 @@ const FileHistory = () => {
                 InputProps={{
                   startAdornment: (
                     <InputAdornment position="start">
-                      <SearchIcon sx={{ color: "#15803d" }} />
+                      <SearchIcon sx={{ color: "#0c4a6e" }} />
                     </InputAdornment>
                   ),
                   sx: {
                     borderRadius: 2,
                     '&:hover .MuiOutlinedInput-notchedOutline': {
-                      borderColor: '#15803d',
+                      borderColor: '#0c4a6e',
                     },
                     '&.Mui-focused .MuiOutlinedInput-notchedOutline': {
-                      borderColor: '#15803d',
+                      borderColor: '#0c4a6e',
                     },
                   }
                 }}
@@ -205,7 +205,7 @@ const FileHistory = () => {
                             <IconButton
                               onClick={() => handleDownload(file._id, file.originalName)}
                               sx={{
-                                color: "#15803d",
+                                color: "#0c4a6e",
                                 "&:hover": { backgroundColor: "rgba(21, 128, 61, 0.08)" },
                               }}
                             >
@@ -229,7 +229,7 @@ const FileHistory = () => {
                       <ListItemText
                         primaryTypographyProps={{
                           fontWeight: "bold",
-                          color: "#15803d",
+                          color: "#0c4a6e",
                         }}
                         primary={file.originalName}
                         secondary={

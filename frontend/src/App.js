@@ -36,9 +36,7 @@ const theme = createTheme({
 
 function App() {
   return (
-    <div>
-    <h1>Deployed at: June 25 2025</h1>
-    <div>
+    
 
     <ThemeProvider theme={theme}>
       <CssBaseline />

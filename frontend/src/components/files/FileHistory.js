@@ -17,11 +17,14 @@ import {
   DialogContent,
   DialogContentText,
   DialogActions,
+  TextField,
+  InputAdornment,
 } from "@mui/material";
 import {
   CloudDownload as DownloadIcon,
   History as HistoryIcon,
   Delete as DeleteIcon,
+  Search as SearchIcon,
 } from "@mui/icons-material";
 import axiosInstance from "../../api/axios";
 
@@ -31,10 +34,30 @@ const FileHistory = () => {
   const [loading, setLoading] = useState(true);
   const [deleteDialogOpen, setDeleteDialogOpen] = useState(false);
   const [fileToDelete, setFileToDelete] = useState(null);
+  const [searchTerm, setSearchTerm] = useState("");
+  const [filteredFiles, setFilteredFiles] = useState([]);
 
   useEffect(() => {
     fetchFiles();
   }, []);
+
+  // Filter files when search term or files change
+  useEffect(() => {
+    if (!searchTerm.trim()) {
+      setFilteredFiles(files);
+      return;
+    }
+    
+    const lowercasedSearch = searchTerm.toLowerCase();
+    const filtered = files.filter(file => {
+      return (
+        file.originalName.toLowerCase().includes(lowercasedSearch) ||
+        new Date(file.uploadDate).toLocaleDateString().includes(lowercasedSearch)
+      );
+    });
+    
+    setFilteredFiles(filtered);
+  }, [searchTerm, files]);
 
   const fetchFiles = async () => {
     try {
@@ -44,6 +67,7 @@ const FileHistory = () => {
         headers: { Authorization: `Bearer ${token}` },
       });
       setFiles(response.data);
+      setFilteredFiles(response.data);
     } catch (err) {
       setError("Failed to fetch files");
     } finally {
@@ -138,13 +162,40 @@ const FileHistory = () => {
               </Typography>
             )}
 
+            {/* Search Box */}
+            <Box sx={{ mb: 3 }}>
+              <TextField
+                fullWidth
+                variant="outlined"
+                placeholder="Search files by name or date"
+                value={searchTerm}
+                onChange={(e) => setSearchTerm(e.target.value)}
+                InputProps={{
+                  startAdornment: (
+                    <InputAdornment position="start">
+                      <SearchIcon sx={{ color: "#15803d" }} />
+                    </InputAdornment>
+                  ),
+                  sx: {
+                    borderRadius: 2,
+                    '&:hover .MuiOutlinedInput-notchedOutline': {
+                      borderColor: '#15803d',
+                    },
+                    '&.Mui-focused .MuiOutlinedInput-notchedOutline': {
+                      borderColor: '#15803d',
+                    },
+                  }
+                }}
+              />
+            </Box>
+
             {loading ? (
               <Typography align="center" sx={{ py: 3 }}>
                 Loading your files...
               </Typography>
             ) : (
               <List>
-                {files.map((file, index) => (
+                {filteredFiles.map((file, index) => (
                   <React.Fragment key={file._id}>
                     <ListItem
                       alignItems="flex-start"
@@ -202,15 +253,15 @@ const FileHistory = () => {
                         }
                       />
                     </ListItem>
-                    {index < files.length - 1 && <Divider component="li" />}
+                    {index < filteredFiles.length - 1 && <Divider component="li" />}
                   </React.Fragment>
                 ))}
 
-                {files.length === 0 && (
+                {filteredFiles.length === 0 && (
                   <ListItem>
                     <ListItemText
-                      primary="No files uploaded yet"
-                      secondary="Upload files from the dashboard to see your history"
+                      primary={searchTerm ? "No matching files found" : "No files uploaded yet"}
+                      secondary={searchTerm ? "Try a different search term" : "Upload files from the dashboard to see your history"}
                       primaryTypographyProps={{ fontWeight: 500 }}
                     />
                   </ListItem>

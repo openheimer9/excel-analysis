@@ -122,7 +122,10 @@ const Analysis = () => {
     { name: 'Blue', value: 'blue', color: '#0284c7' },
     { name: 'Purple', value: 'purple', color: '#7e22ce' },
     { name: 'Orange', value: 'orange', color: '#ea580c' },
-    { name: 'Red', value: 'red', color: '#dc2626' }
+    { name: 'Red', value: 'red', color: '#dc2626' },
+    { name: 'Teal', value: 'teal', color: '#0d9488' },
+    { name: 'Indigo', value: 'indigo', color: '#4f46e5' },
+    { name: 'Pink', value: 'pink', color: '#db2777' }
   ];
 
   useEffect(() => {
@@ -231,23 +234,29 @@ const Analysis = () => {
       const labels = sortedData.map(item => item[selectedCategories]);
       const data = sortedData.map(item => item[selectedY]);
       
+      // Get color based on selected chart color
+      const colorObj = colorOptions.find(c => c.value === chartColor) || colorOptions[0];
+      
       return {
         labels,
         datasets: [{
           label: selectedY,
           data,
-          backgroundColor: 'rgba(34, 197, 94, 0.2)',
-          borderColor: 'rgb(34, 197, 94)',
-          pointBackgroundColor: 'rgb(34, 197, 94)',
+          backgroundColor: `${colorObj.color}33`, // With transparency
+          borderColor: colorObj.color,
+          pointBackgroundColor: colorObj.color,
           pointBorderColor: '#fff',
           pointHoverBackgroundColor: '#fff',
-          pointHoverBorderColor: 'rgb(34, 197, 94)',
+          pointHoverBorderColor: colorObj.color,
         }],
       };
     }
     
     // For bubble charts
     if (chartType === 'bubble') {
+      // Get color based on selected chart color
+      const colorObj = colorOptions.find(c => c.value === chartColor) || colorOptions[0];
+      
       return {
         datasets: [{
           label: `${selectedY} vs ${selectedX}`,
@@ -256,13 +265,16 @@ const Analysis = () => {
             y: item[selectedY],
             r: item[selectedSize] / 5, // Scale down the size for better visualization
           })),
-          backgroundColor: 'rgba(34, 197, 94, 0.5)',
+          backgroundColor: `${colorObj.color}80`, // With transparency
         }],
       };
     }
     
     // For scatter plots
     if (chartType === 'scatter') {
+      // Get color based on selected chart color
+      const colorObj = colorOptions.find(c => c.value === chartColor) || colorOptions[0];
+      
       return {
         datasets: [{
           label: `${selectedY} vs ${selectedX}`,
@@ -270,7 +282,7 @@ const Analysis = () => {
             x: item[selectedX],
             y: item[selectedY],
           })),
-          backgroundColor: 'rgb(34, 197, 94)',
+          backgroundColor: colorObj.color,
         }],
       };
     }
@@ -279,14 +291,17 @@ const Analysis = () => {
     const labels = sortedData.map(item => item[selectedX]);
     const data = sortedData.map(item => item[selectedY]);
 
+    // Get color based on selected chart color
+    const colorObj = colorOptions.find(c => c.value === chartColor) || colorOptions[0];
+
     return {
       labels,
       datasets: [
         {
           label: `${selectedY} vs ${selectedX}`,
           data,
-          borderColor: "rgb(34, 197, 94)",
-          backgroundColor: "rgba(34, 197, 94, 0.4)",
+          borderColor: colorObj.color,
+          backgroundColor: `${colorObj.color}66`, // With transparency
           fill: true,
           tension: 0.3,
         },
@@ -399,7 +414,22 @@ const Analysis = () => {
       const x = fileData.map(item => item[selectedX]);
       const y = fileData.map(item => item[selectedY]);
       const z = fileData.map(item => item[selectedZ]);
-
+    
+      // Get color based on selected chart color
+      const colorObj = colorOptions.find(c => c.value === chartColor) || colorOptions[0];
+      // Convert to a colorscale name that Plotly understands
+      const colorscaleMap = {
+        green: "Greens",
+        blue: "Blues",
+        purple: "Purples",
+        orange: "Oranges",
+        red: "Reds",
+        teal: "Teal",
+        indigo: "Purples",
+        pink: "Pinkyl"
+      };
+      const colorscale = colorscaleMap[chartColor] || "Viridis";
+    
       let plotlyData = [];
       let layout = {
         margin: { l: 0, r: 0, b: 0, t: 30 },
@@ -411,14 +441,14 @@ const Analysis = () => {
           zaxis: { title: selectedZ },
         },
       };
-
+    
       switch (chartType) {
         case "scatter3d":
           plotlyData = [{
             x, y, z,
             mode: "markers",
             type: "scatter3d",
-            marker: { size: 4, color: z, colorscale: "Viridis" },
+            marker: { size: 4, color: z, colorscale: colorscale },
           }];
           break;
           
@@ -441,7 +471,7 @@ const Analysis = () => {
             x: uniqueX,
             y: uniqueY,
             type: "surface",
-            colorscale: "Viridis",
+            colorscale: colorscale,
           }];
           break;
           
@@ -449,7 +479,7 @@ const Analysis = () => {
           plotlyData = [{
             x, y, z,
             type: "mesh3d",
-            colorscale: "Viridis",
+            colorscale: colorscale,
             intensity: z,
             opacity: 0.8,
           }];
@@ -462,7 +492,7 @@ const Analysis = () => {
             type: "scatter3d",
             line: {
               color: z,
-              colorscale: "Viridis",
+              colorscale: colorscale,
               width: 4,
             },
           }];
@@ -593,6 +623,35 @@ const Analysis = () => {
                       </Button>
                     </Grid>
                   ))}
+              </Grid>
+            </Box>
+
+            {/* Chart Color Selection */}
+            <Box sx={{ mb: 3 }}>
+              <Typography variant="subtitle1" gutterBottom>
+                Chart Color Theme
+              </Typography>
+              <Grid container spacing={1}>
+                {colorOptions.map((option) => (
+                  <Grid item key={option.value}>
+                    <Button
+                      variant={chartColor === option.value ? "contained" : "outlined"}
+                      onClick={() => setChartColor(option.value)}
+                      sx={{ 
+                        m: 0.5,
+                        backgroundColor: chartColor === option.value ? option.color : "transparent",
+                        color: chartColor === option.value ? "white" : option.color,
+                        borderColor: option.color,
+                        '&:hover': { 
+                          backgroundColor: chartColor === option.value ? option.color : `${option.color}22`,
+                          borderColor: option.color
+                        }
+                      }}
+                    >
+                      {option.name}
+                    </Button>
+                  </Grid>
+                ))}
               </Grid>
             </Box>
 

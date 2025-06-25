@@ -805,7 +805,7 @@ const Analysis = () => {
                 onClick={handleSaveAnalysis}
                 startIcon={<SaveIcon />}
                 sx={{
-                  backgroundColor: "#16a34a",
+                  backgroundColor: "#0c4a6e",
                   '&:hover': { backgroundColor: "#0c4a6e" }
                 }}
               >
@@ -816,8 +816,8 @@ const Analysis = () => {
                 onClick={handleDownloadClick}
                 startIcon={<DownloadIcon />}
                 sx={{
-                  borderColor: "#16a34a",
-                  color: "#16a34a",
+                  borderColor: "#0c4a6e",
+                  color: "#0c4a6e",
                   '&:hover': { borderColor: "#0c4a6e", backgroundColor: "rgba(22, 163, 74, 0.08)" }
                 }}
               >
@@ -845,7 +845,7 @@ const Analysis = () => {
                 <Button 
                   onClick={handleDownloadChart} 
                   variant="contained"
-                  sx={{ backgroundColor: "#16a34a" }}
+                  sx={{ backgroundColor: "#0c4a6e" }}
                 >
                   Download
                 </Button>

@@ -573,7 +573,7 @@ const Analysis = () => {
               variant="h5"
               component="h1"
               gutterBottom
-              className="text-green-700 font-bold"
+              className="text-blue-700 font-bold"
             >
               Data Analysis
             </Typography>
@@ -616,7 +616,7 @@ const Analysis = () => {
                         sx={{ 
                           m: 0.5,
                           backgroundColor: chartType === type ? "#16a34a" : "transparent",
-                          '&:hover': { backgroundColor: chartType === type ? "#15803d" : "rgba(22, 163, 74, 0.08)" }
+                          '&:hover': { backgroundColor: chartType === type ? "#0c4a6e" : "rgba(22, 163, 74, 0.08)" }
                         }}
                       >
                         {config.name}
@@ -806,7 +806,7 @@ const Analysis = () => {
                 startIcon={<SaveIcon />}
                 sx={{
                   backgroundColor: "#16a34a",
-                  '&:hover': { backgroundColor: "#15803d" }
+                  '&:hover': { backgroundColor: "#0c4a6e" }
                 }}
               >
                 Save Analysis
@@ -818,7 +818,7 @@ const Analysis = () => {
                 sx={{
                   borderColor: "#16a34a",
                   color: "#16a34a",
-                  '&:hover': { borderColor: "#15803d", backgroundColor: "rgba(22, 163, 74, 0.08)" }
+                  '&:hover': { borderColor: "#0c4a6e", backgroundColor: "rgba(22, 163, 74, 0.08)" }
                 }}
               >
                 Download Chart

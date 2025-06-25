@@ -615,7 +615,7 @@ const Analysis = () => {
                         }
                         sx={{ 
                           m: 0.5,
-                          backgroundColor: chartType === type ? "#16a34a" : "transparent",
+                          backgroundColor: chartType === type ? "#0c4a6e" : "transparent",
                           '&:hover': { backgroundColor: chartType === type ? "#0c4a6e" : "rgba(22, 163, 74, 0.08)" }
                         }}
                       >

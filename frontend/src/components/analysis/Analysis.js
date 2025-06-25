@@ -72,7 +72,7 @@ ChartJS.register(
 
 // Chart type definitions with their dimension requirements
 const CHART_TYPES = {
-  // 2D Charts
+  // 2D Charts 
   line: { name: "Line Chart", dimensions: "2D", axes: { x: true, y: true } },
   bar: { name: "Bar Chart", dimensions: "2D", axes: { x: true, y: true } },
   horizontalBar: { name: "Horizontal Bar Chart", dimensions: "2D", axes: { x: true, y: true } },
